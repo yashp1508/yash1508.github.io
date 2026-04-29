@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Yash Pandey — Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --bg:#0e0e0f;
+  --bg2:#161618;
+  --bg3:#1d1d20;
+  --line:#2a2a2e;
+  --text:#e8e6e1;
+  --muted:#888580;
+  --accent:#c8a97e;
+  --accent2:#8eb89a;
+  --serif:'DM Serif Display',serif;
+  --sans:'DM Sans',sans-serif;
+}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);font-weight:300;line-height:1.7;overflow-x:hidden;}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:1.2rem 3rem;border-bottom:1px solid transparent;transition:all .3s;}
+nav.scrolled{background:rgba(14,14,15,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);}
+.nav-logo{font-family:var(--serif);font-size:1.2rem;color:var(--accent);letter-spacing:.02em;}
+.nav-links{display:flex;gap:2rem;list-style:none;}
+.nav-links a{color:var(--muted);text-decoration:none;font-size:.85rem;letter-spacing:.08em;text-transform:uppercase;transition:color .2s;}
+.nav-links a:hover{color:var(--text);}
+
+#hero{min-height:100vh;display:flex;flex-direction:column;justify-content:flex-end;padding:0 3rem 5rem;position:relative;overflow:hidden;}
+.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 60% 50% at 70% 40%,rgba(200,169,126,.08) 0%,transparent 70%),radial-gradient(ellipse 40% 30% at 20% 80%,rgba(142,184,154,.06) 0%,transparent 60%);}
+.hero-tag{font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:1rem;opacity:0;animation:fadeUp .6s .2s forwards;}
+.hero-name{font-family:var(--serif);font-size:clamp(3.5rem,8vw,7rem);line-height:1.05;margin-bottom:1rem;opacity:0;animation:fadeUp .6s .35s forwards;}
+.hero-name em{color:var(--accent);font-style:italic;}
+.hero-sub{font-size:1.05rem;color:var(--muted);max-width:480px;opacity:0;animation:fadeUp .6s .5s forwards;}
+.hero-cta{margin-top:2.5rem;display:flex;gap:1rem;opacity:0;animation:fadeUp .6s .65s forwards;}
+.btn{display:inline-block;padding:.75rem 1.8rem;font-size:.85rem;font-family:var(--sans);letter-spacing:.06em;text-transform:uppercase;text-decoration:none;border-radius:2px;transition:all .25s;cursor:pointer;border:none;}
+.btn-primary{background:var(--accent);color:#0e0e0f;font-weight:500;}
+.btn-primary:hover{background:#d4b98e;}
+.btn-outline{background:transparent;color:var(--text);border:1px solid var(--line);}
+.btn-outline:hover{border-color:var(--accent);color:var(--accent);}
+.hero-scroll{position:absolute;bottom:2rem;right:3rem;font-size:.72rem;letter-spacing:.12em;color:var(--muted);text-transform:uppercase;display:flex;align-items:center;gap:.5rem;opacity:0;animation:fadeUp .6s .8s forwards;}
+.hero-scroll::before{content:'';width:40px;height:1px;background:var(--muted);}
+
+section{padding:6rem 3rem;}
+.section-label{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:.75rem;}
+.section-title{font-family:var(--serif);font-size:clamp(2rem,4vw,3rem);line-height:1.1;margin-bottom:3rem;}
+.divider{width:100%;height:1px;background:var(--line);margin:0;}
+
+#about{background:var(--bg);}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start;}
+.about-left p{color:var(--muted);font-size:1rem;margin-bottom:1.2rem;}
+.about-left p strong{color:var(--text);font-weight:500;}
+.about-stats{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line);}
+.stat{background:var(--bg2);padding:1.5rem;text-align:center;}
+.stat-num{font-family:var(--serif);font-size:2.2rem;color:var(--accent);}
+.stat-label{font-size:.78rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-top:.25rem;}
+
+#experience{background:var(--bg2);}
+.exp-item{display:grid;grid-template-columns:200px 1fr;gap:3rem;padding:2.5rem 0;border-bottom:1px solid var(--line);}
+.exp-item:last-child{border-bottom:none;}
+.exp-meta{padding-top:.2rem;}
+.exp-period{font-size:.78rem;color:var(--accent);letter-spacing:.06em;text-transform:uppercase;margin-bottom:.4rem;}
+.exp-company{font-size:.9rem;color:var(--muted);}
+.exp-title{font-family:var(--serif);font-size:1.4rem;margin-bottom:.75rem;}
+.exp-desc{color:var(--muted);font-size:.95rem;margin-bottom:1rem;}
+.exp-tags{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:1rem;}
+.tag{font-size:.72rem;padding:.25rem .75rem;border:1px solid var(--line);color:var(--muted);letter-spacing:.04em;border-radius:2px;}
+.exp-achievements{list-style:none;}
+.exp-achievements li{font-size:.88rem;color:var(--accent2);padding:.2rem 0;display:flex;align-items:baseline;gap:.5rem;}
+.exp-achievements li::before{content:'→';font-size:.8rem;flex-shrink:0;}
+
+#projects{background:var(--bg);}
+.projects-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);}
+.project-card{background:var(--bg);padding:2rem;transition:background .25s;}
+.project-card:hover{background:var(--bg3);}
+.project-num{font-family:var(--serif);font-size:.85rem;color:var(--line);margin-bottom:1rem;}
+.project-title{font-family:var(--serif);font-size:1.3rem;margin-bottom:.75rem;}
+.project-desc{font-size:.9rem;color:var(--muted);margin-bottom:1.2rem;line-height:1.6;}
+.project-results{display:flex;gap:1.5rem;flex-wrap:wrap;}
+.result{text-align:center;}
+.result-num{font-family:var(--serif);font-size:1.4rem;color:var(--accent);}
+.result-label{font-size:.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;}
+
+#skills{background:var(--bg2);}
+.skills-wrapper{display:grid;grid-template-columns:1fr 1fr;gap:4rem;}
+.skill-group-title{font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:1.5rem;}
+.skill-list{list-style:none;}
+.skill-item{display:flex;justify-content:space-between;align-items:center;padding:.7rem 0;border-bottom:1px solid var(--line);}
+.skill-item:last-child{border-bottom:none;}
+.skill-name{font-size:.9rem;color:var(--text);}
+.skill-bar-wrap{width:120px;height:2px;background:var(--line);}
+.skill-bar{height:100%;background:var(--accent);}
+.tools-list{display:flex;flex-wrap:wrap;gap:.5rem;}
+.tool-chip{font-size:.8rem;padding:.35rem .9rem;border:1px solid var(--line);color:var(--muted);border-radius:2px;transition:all .2s;}
+.tool-chip:hover{border-color:var(--accent);color:var(--accent);}
+
+#contact{background:var(--bg);text-align:center;}
+.contact-inner{max-width:600px;margin:0 auto;}
+.contact-big{font-family:var(--serif);font-size:clamp(2rem,5vw,4rem);line-height:1.1;margin-bottom:1rem;}
+.contact-big em{color:var(--accent);font-style:italic;}
+.contact-sub{color:var(--muted);margin-bottom:3rem;}
+.contact-links{display:flex;justify-content:center;gap:2rem;flex-wrap:wrap;}
+.contact-link{display:flex;align-items:center;gap:.5rem;text-decoration:none;color:var(--muted);font-size:.88rem;letter-spacing:.06em;text-transform:uppercase;transition:color .2s;}
+.contact-link:hover{color:var(--accent);}
+.contact-link .dot{width:5px;height:5px;border-radius:50%;background:var(--line);}
+
+footer{padding:2rem 3rem;border-top:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;}
+footer p{font-size:.78rem;color:var(--muted);}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .7s,transform .7s;}
+.reveal.visible{opacity:1;transform:translateY(0);}
+
+@media(max-width:768px){
+  nav{padding:1rem 1.5rem;}
+  .nav-links{gap:1rem;}
+  section{padding:4rem 1.5rem;}
+  #hero{padding:0 1.5rem 4rem;}
+  .about-grid,.skills-wrapper{grid-template-columns:1fr;}
+  .exp-item{grid-template-columns:1fr;}
+  .projects-grid{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <div class="nav-logo">YP</div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<section id="hero">
+  <div class="hero-bg"></div>
+  <p class="hero-tag">Brand & E-commerce Manager</p>
+  <h1 class="hero-name">Yash<br/><em>Pandey.</em></h1>
+  <p class="hero-sub">I build brands, drive growth on marketplaces, and craft digital experiences that convert — across Amazon, Blinkit, and D2C.</p>
+  <div class="hero-cta">
+    <a href="#contact" class="btn btn-primary">Let's Connect</a>
+    <a href="#experience" class="btn btn-outline">See My Work</a>
+  </div>
+  <div class="hero-scroll">Scroll to explore</div>
+</section>
+
+<hr class="divider"/>
+
+<section id="about">
+  <div class="about-grid reveal">
+    <div class="about-left">
+      <p class="section-label">About</p>
+      <h2 class="section-title" style="margin-bottom:1.5rem;">Strategy-first.<br/>Results-driven.</h2>
+      <p>I'm a Brand & E-commerce Manager based in <strong>Maharashtra, India</strong>, specialising in marketplace growth, performance marketing, and D2C brand building for consumer food brands.</p>
+      <p>At <strong>Dailylife by Vanraj Foods</strong>, I own the end-to-end digital presence — from Amazon listings and Blinkit ads to D2C website strategy on Wix. I combine sharp analytical thinking with a designer's eye to build brands that people remember and products that sell.</p>
+      <p>Alongside marketing, I have a growing interest in <strong>UI/UX design</strong> and am always exploring how better experiences drive better results.</p>
+    </div>
+    <div class="about-stats reveal">
+      <div class="stat"><div class="stat-num">30–50%</div><div class="stat-label">Revenue Growth</div></div>
+      <div class="stat"><div class="stat-num">4x</div><div class="stat-label">ROAS Achieved</div></div>
+      <div class="stat"><div class="stat-num">25%</div><div class="stat-label">CPC Reduction</div></div>
+      <div class="stat"><div class="stat-num">3+</div><div class="stat-label">Channels Managed</div></div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider"/>
+
+<section id="experience">
+  <p class="section-label reveal">Experience</p>
+  <h2 class="section-title reveal">Where I've worked.</h2>
+
+  <div class="exp-item reveal">
+    <div class="exp-meta">
+      <p class="exp-period">2023 — Present</p>
+      <p class="exp-company">Vanraj Foods Pvt. Ltd.</p>
+    </div>
+    <div>
+      <h3 class="exp-title">Brand & E-commerce Manager</h3>
+      <p class="exp-desc">Leading the Dailylife brand across all digital channels — from strategy and positioning to paid media and listing optimization.</p>
+      <div class="exp-tags">
+        <span class="tag">Amazon Ads</span>
+        <span class="tag">Blinkit</span>
+        <span class="tag">D2C</span>
+        <span class="tag">SEO</span>
+        <span class="tag">Performance Marketing</span>
+        <span class="tag">Brand Strategy</span>
+      </div>
+      <ul class="exp-achievements">
+        <li>Increased online revenue by 30–50% within 4 months</li>
+        <li>Achieved ROAS of 2.5x–4x through sustained ad optimization</li>
+        <li>Reduced CPC by 15–25% across Amazon and Blinkit campaigns</li>
+        <li>Improved product visibility, rankings, and conversion rates</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="exp-item reveal">
+    <div class="exp-meta">
+      <p class="exp-period">Previous Role</p>
+      <p class="exp-company">Augsta Havens</p>
+    </div>
+    <div>
+      <h3 class="exp-title">Operations & Digital Marketing Executive</h3>
+      <p class="exp-desc">Managed the full stack of a vacation rental business — from guest operations and platform listings to digital marketing and website launch.</p>
+      <div class="exp-tags">
+        <span class="tag">Instagram Ads</span>
+        <span class="tag">Wix</span>
+        <span class="tag">OTA Listings</span>
+        <span class="tag">Operations</span>
+        <span class="tag">Pricing Strategy</span>
+      </div>
+      <ul class="exp-achievements">
+        <li>Increased bookings by 25–60% through marketing and pricing strategies</li>
+        <li>Improved occupancy rate by 20–40%</li>
+        <li>Built and launched company website; boosted direct bookings</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<hr class="divider"/>
+
+<section id="projects">
+  <p class="section-label reveal">Projects</p>
+  <h2 class="section-title reveal">Things I've built.</h2>
+  <div class="projects-grid reveal">
+    <div class="project-card">
+      <p class="project-num">01</p>
+      <h3 class="project-title">Dailylife — Brand & Marketplace Growth</h3>
+      <p class="project-desc">End-to-end brand building for a food FMCG startup. Built listings, launched ad campaigns, and drove measurable revenue growth across Amazon, Blinkit, and D2C.</p>
+      <div class="project-results">
+        <div class="result"><div class="result-num">4x</div><div class="result-label">ROAS</div></div>
+        <div class="result"><div class="result-num">50%</div><div class="result-label">Revenue ↑</div></div>
+        <div class="result"><div class="result-num">25%</div><div class="result-label">CPC ↓</div></div>
+      </div>
+    </div>
+    <div class="project-card">
+      <p class="project-num">02</p>
+      <h3 class="project-title">Hing Launch Strategy — Dual Brand</h3>
+      <p class="project-desc">Planned a dual-brand asafoetida market entry for Vanraj Foods — positioning a premium Dailylife SKU with high retailer margins to compete in the mid-premium segment.</p>
+      <div class="project-results">
+        <div class="result"><div class="result-num">65%</div><div class="result-label">Retailer Margin</div></div>
+        <div class="result"><div class="result-num">2</div><div class="result-label">Brand Tiers</div></div>
+      </div>
+    </div>
+    <div class="project-card">
+      <p class="project-num">03</p>
+      <h3 class="project-title">Augsta Havens — Digital Growth</h3>
+      <p class="project-desc">Took a vacation rental business from zero digital presence to a fully operational online brand — website, OTA listings, Instagram campaigns, and direct booking growth.</p>
+      <div class="project-results">
+        <div class="result"><div class="result-num">60%</div><div class="result-label">Bookings ↑</div></div>
+        <div class="result"><div class="result-num">40%</div><div class="result-label">Occupancy ↑</div></div>
+      </div>
+    </div>
+    <div class="project-card">
+      <p class="project-num">04</p>
+      <h3 class="project-title">Amazon Papad Listings — Full Build</h3>
+      <p class="project-desc">Researched, wrote, and optimised Amazon listings for 5 Dailylife papad variants — keyword-rich titles, bullet points, A+ content strategy, and backend search terms.</p>
+      <div class="project-results">
+        <div class="result"><div class="result-num">5</div><div class="result-label">SKUs Listed</div></div>
+        <div class="result"><div class="result-num">100%</div><div class="result-label">SEO Optimised</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider"/>
+
+<section id="skills">
+  <p class="section-label reveal">Skills</p>
+  <h2 class="section-title reveal">What I bring.</h2>
+  <div class="skills-wrapper">
+    <div class="reveal">
+      <p class="skill-group-title">Core Competencies</p>
+      <ul class="skill-list">
+        <li class="skill-item"><span class="skill-name">Brand Strategy & Positioning</span><div class="skill-bar-wrap"><div class="skill-bar" style="width:95%"></div></div></li>
+        <li class="skill-item"><span class="skill-name">Performance Marketing</span><div class="skill-bar-wrap"><div class="skill-bar" style="width:90%"></div></div></li>
+        <li class="skill-item"><span class="skill-name">Marketplace Management</span><div class="skill-bar-wrap"><div class="skill-bar" style="width:92%"></div></div></li>
+        <li class="skill-item"><span class="skill-name">SEO & Listing Optimisation</span><div class="skill-bar-wrap"><div class="skill-bar" style="width:88%"></div></div></li>
+        <li class="skill-item"><span class="skill-name">Conversion Rate Optimisation</span><div class="skill-bar-wrap"><div class="skill-bar" style="width:82%"></div></div></li>
+        <li class="skill-item"><span class="skill-name">Adobe Photoshop</span><div class="skill-bar-wrap"><div class="skill-bar" style="width:78%"></div></div></li>
+        <li class="skill-item"><span class="skill-name">Video Editing</span><div class="skill-bar-wrap"><div class="skill-bar" style="width:72%"></div></div></li>
+        <li class="skill-item"><span class="skill-name">UI/UX Design</span><div class="skill-bar-wrap"><div class="skill-bar" style="width:50%"></div></div></li>
+      </ul>
+    </div>
+    <div class="reveal">
+      <p class="skill-group-title">Tools & Platforms</p>
+      <div class="tools-list">
+        <span class="tool-chip">Amazon Seller Central</span>
+        <span class="tool-chip">Amazon Ads</span>
+        <span class="tool-chip">Blinkit Dashboard</span>
+        <span class="tool-chip">Instagram Ads Manager</span>
+        <span class="tool-chip">Meta Business Suite</span>
+        <span class="tool-chip">Wix</span>
+        <span class="tool-chip">Adobe Photoshop</span>
+        <span class="tool-chip">Google Sheets</span>
+        <span class="tool-chip">Excel</span>
+        <span class="tool-chip">Figma (Learning)</span>
+        <span class="tool-chip">Google Analytics (Learning)</span>
+      </div>
+      <p class="skill-group-title" style="margin-top:2rem;">Education</p>
+      <div style="border:1px solid var(--line);padding:1.25rem;">
+        <p style="font-family:var(--serif);font-size:1.1rem;margin-bottom:.25rem;">B.Sc. Computer Science</p>
+        <p style="font-size:.85rem;color:var(--muted);">Your College Name · Maharashtra</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider"/>
+
+<section id="contact">
+  <div class="contact-inner reveal">
+    <h2 class="contact-big">Let's work<br/><em>together.</em></h2>
+    <p class="contact-sub">Open to brand collaborations, freelance projects, and full-time opportunities.</p>
+    <div class="contact-links">
+      <a href="mailto:yashrajeevpandey@gmail.com" class="contact-link"><span class="dot"></span>Email</a>
+      <a href="tel:+919619292163" class="contact-link"><span class="dot"></span>+91 96192 92163</a>
+      <a href="YOUR_LINKEDIN_URL" class="contact-link"><span class="dot"></span>LinkedIn</a>
+      <a href="#" class="contact-link"><span class="dot"></span>Maharashtra, India</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>© 2025 Yash Pandey</p>
+  <p>Brand & E-commerce Manager</p>
+</footer>
+
+<script>
+const nav=document.getElementById('nav');
+window.addEventListener('scroll',()=>{nav.classList.toggle('scrolled',window.scrollY>40);});
+const reveals=document.querySelectorAll('.reveal');
+const io=new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');io.unobserve(e.target);}});
+},{threshold:.12});
+reveals.forEach(r=>io.observe(r));
+</script>
+</body>
+</html>
